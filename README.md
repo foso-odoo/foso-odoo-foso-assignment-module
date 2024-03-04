@@ -1,0 +1,1 @@
+# foso-odoo-foso-assignment-module
