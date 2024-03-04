@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+       <record id="stock_picking_batch_form_inherit" model="ir.ui.view">
+       <field name="name">stock.picking.batch.form.inherit</field>
+       <field name="model">stock.picking.batch</field>
+       <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
+       <field name="arch" type="xml">
+        <xpath expr="//field[@name='scheduled_date']" position="after">
+            <field name="doc_id"/>
+            <field name="vehicle_id"/>
+            <field name="category_id"/>
+            <field name="total_weight" widget="progressbar"/>
+            <field name="total_volume"  widget="progressbar"/>
+        </xpath>
+    </field>
+    </record>
+   </data>
+</odoo>
+
+
+<!-- invisible = "[('category_id', '=', False)]"  -->
