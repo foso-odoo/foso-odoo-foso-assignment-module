@@ -8,11 +8,12 @@
     'application': True,
   
     'data': [
+        'security/ir.model.access.csv',
         
         'views/fleet_vehicle_category_views.xml',
         'views/stock_picking_views.xml',
         'views/stock_batch_pick_views.xml',
-        
+        'views/stock_pick_views.xml',
         ],
     
     

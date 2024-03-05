@@ -2,10 +2,13 @@ from odoo import fields, models ,api
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking.batch'
+    
 
     vehicle_id = fields.Many2one('fleet.vehicle', string='Vehicle')
     category_id = fields.Many2one('fleet.vehicle.model.category', string='Vehicle Category')
     doc_id = fields.Many2one('dock.model',string='Dock')
+    # print(scheduled_date)
+
     #max_weight =fields.Float()
     
 
@@ -16,6 +19,7 @@ class StockPicking(models.Model):
     @api.depends('picking_ids.move_line_ids.product_id.weight', 'picking_ids.move_line_ids.quantity')
     def _compute_total_weight(self):
         for batch in self:
+            #print("Scheduled_date",batch.scheduled_date)
             total_weight = 0
             for picking in batch.picking_ids:
                 picking_weight = sum(

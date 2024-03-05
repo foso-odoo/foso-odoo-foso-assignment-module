@@ -16,19 +16,70 @@
     <field name="name">stock.picking.batch.gantt</field>
     <field name="model">stock.picking.batch</field>
     <field name="arch" type="xml">
-        <gantt date_start="scheduled_date" date_stop="2024-12-31" default_group_by="dock_id,fleet_id">
+        <gantt date_start="scheduled_date" date_stop="scheduled_date" default_group_by="doc_id,category_id">
             <field name="name" string="Name"/>
             <field name="total_weight" string="Weight"/>
-            <field name="total_volume" string="Volume"/>
+            <field name="total_volume"  string="Volume"/>
         </gantt>
     </field>
 </record> -->
+
+<record id="view_stock_picking_batch_gantt" model="ir.ui.view">
+    <field name="name">stock.picking.batch.gantt</field>
+    <field name="model">stock.picking.batch</field>
+    <field name="arch" type="xml">
+        <gantt
+            date_start="scheduled_date"
+            date_stop="scheduled_date"
+            default_group_by="doc_id,category_id"
+            default_scale="week"
+            color="doc_id"
+            scales="day,week,month,year"
+            precision="{'day': 'hour:full', 'week': 'day:full', 'month': 'day:full', 'year': 'day:full'}">
+            <field name="doc_id"/>
+            <templates>
+                <div t-name="gantt_header_cell">
+                    <span t-if="item.group.category_id">
+                        <t t-esc="item.group.category_id[1]"/> (<t t-esc="item.group.doc_id[1]"/>)
+                    </span>
+                    <span t-else="">
+                        <t t-esc="item.name"/> : (<t t-esc="item.max_weight"/>kg, <t t-esc="item.max_volume"/>m³)
+                    </span>
+                </div>
+                <div t-name="gantt_cell">
+                    <t t-if="!item.group">
+                        <t t-esc="item.name"/> : (<t t-esc="item.max_weight"/>kg, <t t-esc="item.max_volume"/>m³)
+                    </t>
+                </div>
+                <div t-name="gantt-popover" class="container-fluid">
+                    <div class="row no-gutters">
+                        <div class="col">
+                            <ul class="pl-1 mb-0">
+                                <li>
+                                    <strong>Start Date:</strong>
+                                    <t t-esc="userTimezoneStartDate.format('YYYY-MM-DD hh:mm:ss A')"/>
+                                </li>
+                                <li>
+                                    <strong>Stop Date:</strong>
+                                    <t t-esc="date_to.format('YYYY-MM-DD hh:mm:ss A')"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </templates>
+        </gantt>
+    </field>
+</record>
+
+
+
 
 
    <record id="stock_picking_batch.stock_picking_batch_action" model="ir.actions.act_window">
         <field name="name">Inventory Batch</field>
         <field name="res_model">stock.picking.batch</field>
-        <field name="view_mode">tree,form,kanban,graph</field>
+        <field name="view_mode">tree,form,kanban,graph,gantt</field>
     </record>
 
    
