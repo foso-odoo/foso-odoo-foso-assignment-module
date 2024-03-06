@@ -7,7 +7,8 @@
             <graph string="Inventory Batch Graph" type="bar">
                 <field name="scheduled_date" type="row" interval="day"/>
                 <field name="category_id" type="col"/>
-                <field name="id" type="measure" operator="count" string="Count"/>
+                <!-- <field name="id" type="measure" operator="count" string="Count"/> -->
+                <field name="transfers" type="measure" operator="sum" string="Transfers"/>
             </graph>
         </field>
     </record>
@@ -24,55 +25,28 @@
     </field>
 </record> -->
 
-<record id="view_stock_picking_batch_gantt" model="ir.ui.view">
-    <field name="name">stock.picking.batch.gantt</field>
-    <field name="model">stock.picking.batch</field>
-    <field name="arch" type="xml">
-        <gantt
-            date_start="scheduled_date"
-            date_stop="scheduled_date"
-            default_group_by="doc_id,category_id"
-            default_scale="week"
-            color="doc_id"
-            scales="day,week,month,year"
-            precision="{'day': 'hour:full', 'week': 'day:full', 'month': 'day:full', 'year': 'day:full'}">
-            <field name="doc_id"/>
-            <templates>
-                <div t-name="gantt_header_cell">
-                    <span t-if="item.group.category_id">
-                        <t t-esc="item.group.category_id[1]"/> (<t t-esc="item.group.doc_id[1]"/>)
-                    </span>
-                    <span t-else="">
-                        <t t-esc="item.name"/> : (<t t-esc="item.max_weight"/>kg, <t t-esc="item.max_volume"/>m³)
-                    </span>
-                </div>
-                <div t-name="gantt_cell">
-                    <t t-if="!item.group">
-                        <t t-esc="item.name"/> : (<t t-esc="item.max_weight"/>kg, <t t-esc="item.max_volume"/>m³)
-                    </t>
-                </div>
-                <div t-name="gantt-popover" class="container-fluid">
-                    <div class="row no-gutters">
-                        <div class="col">
-                            <ul class="pl-1 mb-0">
-                                <li>
-                                    <strong>Start Date:</strong>
-                                    <t t-esc="userTimezoneStartDate.format('YYYY-MM-DD hh:mm:ss A')"/>
-                                </li>
-                                <li>
-                                    <strong>Stop Date:</strong>
-                                    <t t-esc="date_to.format('YYYY-MM-DD hh:mm:ss A')"/>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </templates>
-        </gantt>
-    </field>
-</record>
-
-
+ <record id="view_stock_picking_batch_gantt" model="ir.ui.view">
+        <field name="name">stock.picking.batch.gantt.view</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="arch" type="xml">
+            <gantt 
+                date_start="scheduled_date" 
+                date_stop="scheduled_date" 
+                default_group_by='doc_id,vehicle_id'
+                default_scale="week"
+                scales="day,week,month,year"
+                precision="{'day': 'hour:full', 'week': 'day:full', 'month': 'day:full', 'year': 'day:full'}"
+                decoration-info="state == 'draft'"
+                decoration-success="state == 'done'"
+                color="doc_id"
+            >
+            <field name='state' invisible='1'/>
+            <field name="name" />
+            <field name="total_weight" />
+            <field name="total_volume" />
+            </gantt>
+        </field>
+    </record>
 
 
 
