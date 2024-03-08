@@ -9,6 +9,8 @@
                 <field name="category_id" type="col"/>
                 <!-- <field name="id" type="measure" operator="count" string="Count"/> -->
                 <field name="transfers" type="measure" operator="sum" string="Transfers"/>
+                <field name="lines" type="measure" operator="sum" string="Lines"/>
+
             </graph>
         </field>
     </record>

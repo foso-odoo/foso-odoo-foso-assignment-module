@@ -9,8 +9,26 @@
             <field name="doc_id"/>
             <field name="vehicle_id" placeholder="Third Party Provider"/>
             <field name="category_id" placeholder="Semi Truck"/>
-            <field name="total_weight" widget="progressbar"/>
-            <field name="total_volume"  widget="progressbar"/>
+            <!-- <field name="temp_weight" invisible = "category_id == False" class="me-2"/>
+            <field name="total_weight" widget="progressbar" readonly = 'True' invisible = "category_id == False"/>
+            <field name="temp_volume" invisible = "category_id == False" class="me-2"/>
+            <field name="total_volume"  widget="progressbar" readonly = 'True' invisible = "category_id == False" /> -->
+            <div invisible = "category_id == False" >
+                            <div class="d-flex" style="width:12rem">
+                                <span style="margin-right: 10rem"><Strong>Weight</Strong></span>
+                                <div class="d-flex">
+                                    <field name="temp_weight" invisible = "category_id == False" class="me-2"/>
+                                    <field name="total_weight" invisible = "category_id == False" string="" widget="progressbar"/>
+                                </div>
+                            </div>
+                            <div class="d-flex" style="width:12rem">
+                                <span style="margin-right: 10rem"><Strong>Volume</Strong></span>
+                                <div class="d-flex">
+                                    <field name="temp_volume" invisible = "category_id == False" class="me-2"/>
+                                    <field name="total_volume" invisible = "category_id == False" string="" widget="progressbar"/>
+                                </div>
+                            </div>
+                        </div>
         </xpath>
     </field>
     </record>
@@ -18,4 +36,3 @@
 </odoo>
 
 
-<!-- invisible = "[('category_id', '=', False)]"  -->
